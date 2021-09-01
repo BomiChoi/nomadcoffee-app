@@ -1,5 +1,4 @@
 import React from "react";
-import { View, Text } from "react-native";
 import { useReactiveVar } from '@apollo/client';
 import LogIn from "./LogIn";
 import { isLoggedInVar } from '../apollo';

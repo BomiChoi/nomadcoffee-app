@@ -4,7 +4,7 @@ import AuthButton from "../components/auth/AuthButton";
 import AuthLayout from "../components/auth/AuthLayout";
 import { TextInput } from "../components/auth/AuthShared";
 import { useMutation, gql } from "@apollo/client";
-import { isLoggedInVar } from '../apollo';
+import { logUserIn } from '../apollo';
 
 const LOGIN_MUTATION = gql`
   mutation login($username: String! $password: String!){
@@ -20,10 +20,12 @@ export default function LogIn() {
     const { register, handleSubmit, setValue, watch, formState } = useForm();
 
     const onCompleted = (data) => {
-        console.log(data);
+        // console.log(data);
         const { login: { ok, token } } = data;
         if (ok) {
-            isLoggedInVar(true);
+            logUserIn(token);
+        } else {
+            alert(error);
         }
     };
     const [logInMutation, { loading }] = useMutation(LOGIN_MUTATION, {

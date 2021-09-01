@@ -36,6 +36,7 @@ export default function AuthLayout({ children }) {
                     keyboardVerticalOffset={Platform.os === "ios" ? 50 : 0}
                 >
                     <Logo resizeMode="contain" source={require("../../assets/logo.png")} />
+                    {/* <Logo size="large" /> */}
                     {children}
                 </KeyboardAvoidingView>
             </Container>

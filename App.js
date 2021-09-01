@@ -7,7 +7,7 @@ import LoggedOutNav from './navigators/LoggedOutNav';
 import { NavigationContainer } from "@react-navigation/native";
 import { AppearanceProvider } from 'react-native-appearance';
 import { ApolloProvider, useReactiveVar } from '@apollo/client';
-import client, { isLoggedInVar } from './apollo';
+import client, { isLoggedInVar, tokenVar } from './apollo';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function App() {
@@ -27,7 +27,6 @@ export default function App() {
   };
   const preload = async () => {
     const token = await AsyncStorage.getItem("token");
-    console.log(token);
     if (token) {
       isLoggedInVar(true);
       tokenVar(token);

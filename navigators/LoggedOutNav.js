@@ -9,18 +9,24 @@ const Tabs = createBottomTabNavigator();
 
 export default function LoggedOutNav() {
     return (
-        <Tabs.Navigator screenOptions={{
-            headerBackTitleVisible: false,
-            headerTitle: false,
-            headerTransparent: true,
-            headerShown: false,
-            tabBarActiveTintColor: "white",
-            tabBarStyle: {
-                borderTopColor: "rgba(255, 255, 255, 0.3)",
-                backgroundColor: "black",
-            },
-            tabBarShowLabel: false,
-        }}>
+        <Tabs.Navigator
+            screenOptions={{
+                headerMode: "screen",
+                headerBackTitleVisible: false,
+                headerTintColor: "white",
+                headerStyle: {
+                    borderBottomColor: "rgba(255, 255, 255, 0.3)",
+                    shadowColor: "rgba(255, 255, 255, 0.3)",
+                    backgroundColor: "black",
+                },
+                tabBarActiveTintColor: "white",
+                tabBarStyle: {
+                    borderTopColor: "rgba(255, 255, 255, 0.3)",
+                    backgroundColor: "black",
+                },
+                tabBarShowLabel: false,
+            }}
+        >
             <Tabs.Screen
                 name="Home"
                 component={Home}

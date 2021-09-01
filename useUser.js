@@ -5,6 +5,7 @@ import { isLoggedInVar, logUserOut } from "./apollo";
 const ME_QUERY = gql`
     query me{
         me{
+            id
             username
             avatarURL
         }
@@ -19,6 +20,7 @@ function useUser() {
     // 토큰이 유효하지 않으면 로그아웃시킴
     useEffect(() => {
         if (data?.me === null) {
+            console.log("Invalid Token");
             logUserOut();
         }
     }, [data])

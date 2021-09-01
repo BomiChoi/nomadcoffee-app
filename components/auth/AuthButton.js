@@ -8,7 +8,7 @@ const Button = styled.TouchableOpacity`
     padding: 15px 10px;
     border-radius: 3px;
     width: 100%;
-    opacity: ${prrops => prrops.disabled ? "0.5" : "1"};
+    opacity: ${props => props.disabled ? "0.5" : "1"};
 `;
 const ButtonText = styled.Text`
     color: white;
