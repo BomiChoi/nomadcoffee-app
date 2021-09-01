@@ -6,8 +6,8 @@ import { FlatList } from "react-native";
 import Shop from "../components/Shop";
 
 const SEECOFFEESHOPS_QUERY = gql`
-    query seeCoffeeShops($lastId: Int!) {
-        seeCoffeeShops(lastId: $lastId) {
+    query seeCoffeeShops($offset: Int!) {
+        seeCoffeeShops(offset: $offset) {
             ...ShopFragment
         }
     }
@@ -17,7 +17,7 @@ const SEECOFFEESHOPS_QUERY = gql`
 export default function Home() {
     const { data, loading, refetch, fetchMore } = useQuery(SEECOFFEESHOPS_QUERY, {
         variables: {
-            lastId: 0,
+            offset: 0,
         },
     });
     const renderShop = ({ item: shop }) => {
@@ -43,7 +43,7 @@ export default function Home() {
                 onEndReached={() =>
                     fetchMore({
                         variables: {
-                            lastId: data?.seeCoffeeShops?.length,
+                            offset: data?.seeCoffeeShops?.length,
                         },
                     })
                 }
