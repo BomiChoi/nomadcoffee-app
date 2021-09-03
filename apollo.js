@@ -43,6 +43,12 @@ const client = new ApolloClient({
                             return [...existing, ...incoming];
                         }
                     },
+                    searchCoffeeShops: {
+                        keyArgs: false,
+                        merge(existing = [], incoming = []) {
+                            return [...existing, ...incoming];
+                        }
+                    },
                 },
             },
         },

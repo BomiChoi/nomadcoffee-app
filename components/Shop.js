@@ -3,9 +3,11 @@ import styled from "styled-components/native";
 import { useNavigation } from "@react-navigation/native";
 import { Image, useWindowDimensions } from "react-native";
 import { colors } from "../colors";
+import PropTypes from "prop-types";
 
 const Container = styled.View`
     border: 1px solid gray;
+    margin-bottom: 10px;
 `;
 const Header = styled.View`
   padding: 15px;
@@ -72,6 +74,7 @@ function Shop({ id, name, latitude, longitude, user, photos, categories }) {
                             height: imageHeight,
                         }}
                         source={{ uri: photo.url }}
+                        key={photo.id}
                     />
                 }
 
@@ -91,6 +94,19 @@ function Shop({ id, name, latitude, longitude, user, photos, categories }) {
 }
 
 Shop.propTypes = {
-
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    latitude: PropTypes.string.isRequired,
+    longitude: PropTypes.string.isRequired,
+    user: PropTypes.shape({
+        avatarURL: PropTypes.string,
+        username: PropTypes.string.isRequired,
+    }).isRequired,
+    photos: PropTypes.arrayOf(PropTypes.shape({
+        url: PropTypes.string,
+    })),
+    categories: PropTypes.arrayOf(PropTypes.shape({
+        name: PropTypes.string,
+    })),
 };
 export default Shop;

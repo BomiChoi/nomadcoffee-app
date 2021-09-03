@@ -4,10 +4,13 @@ import Home from "../screens/Home";
 import Profile from "../screens/Profile";
 import Search from "../screens/Search";
 import TabIcon from "../components/nav/TabIcon";
+import useMe from "../hooks/useMe";
+import { Image } from "react-native";
 
 const Tabs = createBottomTabNavigator();
 
-export default function LoggedOutNav() {
+export default function TabNav() {
+    const { data } = useMe();
     return (
         <Tabs.Navigator
             screenOptions={{
@@ -37,7 +40,12 @@ export default function LoggedOutNav() {
                 }} />
             <Tabs.Screen name="Profile" component={Profile} options={{
                 tabBarIcon: ({ focused, color, size }) => (
-                    <TabIcon iconName={"person"} color={color} focused={focused} />
+                    data?.me?.avatarURL ?
+                        <Image
+                            source={{ uri: data.me.avatarURL }}
+                            style={{ height: 30, width: 30, borderRadius: 15, ...(focused && { borderColor: "white", borderWidth: 1 }) }}
+                        />
+                        : <TabIcon iconName={"person"} color={color} focused={focused} />
                 ),
             }} />
             <Tabs.Screen name="Search" component={Search} options={{

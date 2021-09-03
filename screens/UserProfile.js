@@ -1,10 +1,10 @@
 import React from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { Text, TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
 import { useQuery, gql } from "@apollo/client";
-import useUser from "../useUser";
-import Loading from "../components/Loading";
 import { logUserOut } from '../apollo';
+import useMe from "../hooks/useMe";
+import ScreenLayout from "../components/ScreenLayout";
 
 const Container = styled.View`
     margin: 10px;
@@ -31,26 +31,18 @@ const PROFILE_QUERY = gql`
 `;
 
 export default function UserProfile() {
-    // const { data: user, loading: userLoading } = useUser();
-    const userLoading = false;
-    let username = "hibomi97"
-    // if (!userLoading) {
-    //     username = user.me.username;
-    // }
+    const { data: userData, loading: userLoading } = useMe();
+    let username = "";
+    if (userData) {
+        username = userData.me.username;
+    }
     const { data, loading } = useQuery(PROFILE_QUERY, {
         variables: { username }
-    })
-
+    });
     return (
-        (userLoading || loading) ?
-            <Loading />
-            : <View style={{
-                backgroundColor: "black",
-                flex: 1,
-                alignItems: "center",
-                justifyContent: "center",
-            }}>
-                <Text style={{ color: "white", fontSize: 25 }}>Profile</Text>
+        <ScreenLayout loading={(userLoading || loading)}>
+            <Text style={{ color: "white", fontSize: 25 }}>Profile</Text>
+            {data?.seeProfile !== undefined ? (<>
                 <Container>
                     <UserAvatar resizeMode="cover" source={{ uri: data?.seeProfile?.avatarURL }} />
                     <Text style={{ color: "white", fontSize: 16, fontWeight: "bold", }}>{username}</Text>
@@ -66,6 +58,7 @@ export default function UserProfile() {
                         marginTop: 5,
                     }}>Log Out</Text>
                 </TouchableOpacity>
-            </View>
+            </>) : null}
+        </ScreenLayout>
     );
 };

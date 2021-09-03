@@ -3,7 +3,7 @@ import { Ionicons } from '@expo/vector-icons';
 import AppLoading from 'expo-app-loading';
 import { Asset } from 'expo-asset';
 import * as Font from "expo-font";
-import LoggedOutNav from './navigators/LoggedOutNav';
+import TabNav from './navigators/TabNav';
 import { NavigationContainer } from "@react-navigation/native";
 import { AppearanceProvider } from 'react-native-appearance';
 import { ApolloProvider, useReactiveVar } from '@apollo/client';
@@ -47,7 +47,7 @@ export default function App() {
     <ApolloProvider client={client}>
       <AppearanceProvider>
         <NavigationContainer>
-          <LoggedOutNav />
+          <TabNav />
         </NavigationContainer>
       </AppearanceProvider>
     </ApolloProvider>
