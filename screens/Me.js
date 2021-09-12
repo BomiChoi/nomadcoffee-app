@@ -12,7 +12,7 @@ const Container = styled.View`
     align-items: center;
 `;
 const UserAvatar = styled.Image`
-    margin-right: 10px;
+    margin-bottom: 10px;
     width: 40px;
     height: 40px;
     border-radius: 20px;
@@ -30,7 +30,7 @@ const PROFILE_QUERY = gql`
     }
 `;
 
-export default function UserProfile() {
+export default function Me() {
     const { data: userData, loading: userLoading } = useMe();
     let username = "";
     if (userData) {

@@ -2,6 +2,8 @@ import { ApolloClient, createHttpLink, InMemoryCache, makeVar } from "@apollo/cl
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { setContext } from "@apollo/client/link/context";
 import { offsetLimitPagination } from "@apollo/client/utilities";
+import { onError } from "@apollo/client/link/error";
+import { createUploadLink } from "apollo-upload-client";
 
 export const isLoggedInVar = makeVar(false);
 export const tokenVar = makeVar("");
@@ -19,7 +21,7 @@ export const logUserOut = async () => {
     tokenVar(null);
 };
 
-const httpLink = createHttpLink({
+const uploadHttpLink = createUploadLink({
     uri: "https://bomi-nomadcoffee-backend.herokuapp.com/graphql",
     // uri: "http://172.30.1.56:4000/graphql",
 });
@@ -31,28 +33,28 @@ const authLink = setContext((_, { headers }) => {
         },
     };
 });
-const client = new ApolloClient({
-    link: authLink.concat(httpLink),
-    cache: new InMemoryCache({
-        typePolicies: {
-            Query: {
-                fields: {
-                    seeCoffeeShops: {
-                        keyArgs: false,
-                        merge(existing = [], incoming = []) {
-                            return [...existing, ...incoming];
-                        }
-                    },
-                    searchCoffeeShops: {
-                        keyArgs: false,
-                        merge(existing = [], incoming = []) {
-                            return [...existing, ...incoming];
-                        }
-                    },
-                },
-            },
-        },
-    }),
+const onErrorLink = onError(({ graphQLErrors, networkError }) => {
+    if (graphQLErrors) {
+        console.log(`GraphQL Error`, graphQLErrors);
+    }
+    if (networkError) {
+        console.log("Network Error", networkError);
+    }
 });
 
+export const cache = new InMemoryCache({
+    typePolicies: {
+        Query: {
+            fields: {
+                seeCoffeeShops: offsetLimitPagination(),
+                seaCoffeeShops: offsetLimitPagination(),
+            },
+        },
+    },
+});
+
+const client = new ApolloClient({
+    link: authLink.concat(onErrorLink).concat(uploadHttpLink),
+    cache,
+});
 export default client;
